@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:desigmarket/features/stocks/models/company_model.dart';
+import 'package:desigmarket/features/stocks/models/trade_message_model.dart';
 import 'package:desigmarket/features/stocks/repository/stocks_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -81,13 +82,20 @@ class StocksCubit extends Cubit<StocksState> {
 
   void _handleWebSocketMessage(dynamic message) {
     final parsedMessage = _parseMessage(message);
-    final updatedStocksData = Map<String, dynamic>.from(state.stocksData)
-      ..addAll(parsedMessage);
-    emit(state.copyWith(stocksData: updatedStocksData));
+    if (parsedMessage.type != 'trade') return;
+    for (var trade in parsedMessage.data) {
+      final updatedCompanies = state.companies.map((company) {
+        if (company.ticker == trade.symbol) {
+          return company.copyWith(trades: [...company.trades, trade]);
+        }
+        return company;
+      }).toList();
+      emit(state.copyWith(companies: updatedCompanies));
+    }
   }
 
-  Map<String, dynamic> _parseMessage(dynamic message) {
-    return jsonDecode(message);
+  TradeMessage _parseMessage(dynamic message) {
+    return TradeMessage.fromJson(jsonDecode(message));
   }
 
   void subscribe(String symbol) {

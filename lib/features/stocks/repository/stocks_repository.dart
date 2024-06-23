@@ -27,22 +27,31 @@ class StocksRepository {
     finnhubIndustry: 'Cryptocurrency',
     estimateCurrency: 'USD',
     shareOutstanding: 1.0,
-    quote: Quote(
-      ticker: 'BINANCE:BTCUSDT',
-      currentPrice: 0.0,
-      highPrice: 0.0,
-      lowPrice: 0.0,
-      openPrice: 0.0,
-      previousClosePrice: 0.0,
-      timestamp: 0,
-    ),
   );
+
+  final ethCompany = Company(
+    name: 'Ethereum',
+    ticker: 'BINANCE:ETHUSDT',
+    logo: 'https://cryptologos.cc/logos/ethereum-eth-logo.png',
+    country: 'US',
+    currency: 'USD',
+    exchange: 'Binance',
+    ipo: DateTime(2009, 1, 3),
+    marketCapitalization: 1.0,
+    phone: '1-800-555-5555',
+    weburl: 'https://bitcoin.org/',
+    finnhubIndustry: 'Cryptocurrency',
+    estimateCurrency: 'USD',
+    shareOutstanding: 1.0,
+  );
+
   static const stocks = [
     'AAPL',
     'GOOGL',
     'AMZN',
     'TSLA',
     'BINANCE:BTCUSDT',
+    'BINANCE:ETHUSDT',
   ];
 
   StocksRepository({required this.token}) {
@@ -64,6 +73,7 @@ class StocksRepository {
 
   Future<Company> getStockProfile(String symbol) async {
     if (symbol == 'BINANCE:BTCUSDT') return btcCompany;
+    if (symbol == 'BINANCE:ETHUSDT') return ethCompany;
     try {
       final response =
           await dio.get('/stock/profile2', queryParameters: {'symbol': symbol});
@@ -75,7 +85,6 @@ class StocksRepository {
   }
 
   Future<Quote> getStockQuote(String symbol) async {
-    if (symbol == 'BINANCE:BTCUSDT') return btcCompany.quote!;
     try {
       final response =
           await dio.get('/quote', queryParameters: {'symbol': symbol});

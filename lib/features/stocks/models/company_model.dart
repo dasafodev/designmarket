@@ -1,4 +1,5 @@
 import 'package:desigmarket/features/stocks/models/quote_model.dart';
+import 'package:desigmarket/features/stocks/models/trade_model.dart';
 import 'package:equatable/equatable.dart';
 
 class Company extends Equatable {
@@ -16,6 +17,7 @@ class Company extends Equatable {
   final String ticker;
   final String weburl;
   final Quote? quote;
+  final List<Trade> trades;
 
   const Company({
     required this.country,
@@ -31,6 +33,7 @@ class Company extends Equatable {
     required this.shareOutstanding,
     required this.ticker,
     required this.weburl,
+    this.trades = const [],
     this.quote,
   });
 
@@ -65,6 +68,7 @@ class Company extends Equatable {
     String? ticker,
     String? weburl,
     Quote? quote,
+    List<Trade>? trades,
   }) {
     return Company(
       country: country ?? this.country,
@@ -81,7 +85,21 @@ class Company extends Equatable {
       ticker: ticker ?? this.ticker,
       weburl: weburl ?? this.weburl,
       quote: quote ?? this.quote,
+      trades: trades ?? this.trades,
     );
+  }
+
+  double get latestPrice =>
+      trades.isEmpty ? quote?.currentPrice ?? 0 : trades.last.price;
+
+  double get percentChange {
+    final previousClosePrice = quote?.previousClosePrice ?? 0.0;
+    if (previousClosePrice == 0 || latestPrice == 0) {
+      return 0.0;
+    }
+    final result =
+        ((latestPrice - previousClosePrice) / previousClosePrice) * 100;
+    return result;
   }
 
   @override
@@ -100,5 +118,6 @@ class Company extends Equatable {
         ticker,
         weburl,
         quote,
+        trades,
       ];
 }

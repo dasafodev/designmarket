@@ -31,13 +31,4 @@ class Quote {
       timestamp: json['t'].toInt(),
     );
   }
-
-  double get percentChange {
-    if (previousClosePrice == 0) {
-      return 0.0;
-    }
-    final result =
-        ((currentPrice - previousClosePrice) / previousClosePrice) * 100;
-    return result;
-  }
 }

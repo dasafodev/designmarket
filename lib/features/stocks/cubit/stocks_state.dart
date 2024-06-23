@@ -1,32 +1,33 @@
 part of 'stocks_cubit.dart';
 
 class StocksState extends Equatable {
-  final Map<String, dynamic> stocksData;
   final bool hasError;
   final List<Company> companies;
+  final List<Company> watchlistCompanies;
 
   const StocksState({
-    this.stocksData = const {},
     this.hasError = false,
     this.companies = const [],
+    this.watchlistCompanies = const [],
   });
 
   StocksState copyWith({
     List<Company>? companies,
-    Map<String, dynamic>? stocksData,
+    List<Company>? watchlistCompanies,
+    TradeMessage? stocksData,
     bool? hasError,
   }) {
     return StocksState(
-      stocksData: stocksData ?? this.stocksData,
       hasError: hasError ?? this.hasError,
       companies: companies ?? this.companies,
+      watchlistCompanies: watchlistCompanies ?? this.watchlistCompanies,
     );
   }
 
   @override
-  List<Object> get props => [
-        stocksData,
+  List<Object?> get props => [
         hasError,
         companies,
+        watchlistCompanies,
       ];
 }

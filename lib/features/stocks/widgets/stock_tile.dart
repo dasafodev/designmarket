@@ -35,7 +35,7 @@ class StockTile extends StatelessWidget {
           },
         ),
         title: Text(
-          company.ticker,
+          company.ticker.split(':').last,
           style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
@@ -47,17 +47,17 @@ class StockTile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Text(
-              '\$${company.quote?.currentPrice}' ?? 'N/A',
+              '\$${company.latestPrice}',
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
             ),
             Text(
-              '${company.quote?.percentChange.toStringAsFixed(2)}%',
+              '${company.percentChange.toStringAsFixed(2)}%',
               style: TextStyle(
                 fontSize: 14,
-                color: (company.quote?.percentChange ?? 0.0).isNegative
+                color: (company.percentChange).isNegative
                     ? Colors.red.shade300
                     : Colors.green.shade300,
               ),
