@@ -1,4 +1,4 @@
-package com.example.desigmarket
+package com.prunus.desigmarket
 
 import io.flutter.embedding.android.FlutterActivity
 

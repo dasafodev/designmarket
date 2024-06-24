@@ -6,6 +6,7 @@ version: 1.0.0+1
 environment:
   sdk: ">=3.4.1 <4.0.0"
 dependencies:
+  auth0_flutter: ^1.7.2
   dio: ^5.4.3+1
   equatable: ^2.0.5
   fl_chart: ^0.68.0
@@ -21,3 +22,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/

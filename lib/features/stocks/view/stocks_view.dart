@@ -1,4 +1,8 @@
 import 'package:desigmarket/features/stocks/cubit/stocks_cubit.dart';
+import 'package:desigmarket/features/stocks/models/company_model.dart';
+import 'package:desigmarket/features/stocks/widgets/add_to_wishlist.dart';
+import 'package:desigmarket/features/stocks/widgets/add_to_wishlist_form.dart';
+import 'package:desigmarket/features/stocks/widgets/stock_detail.dart';
 import 'package:desigmarket/features/stocks/widgets/stock_tile.dart';
 import 'package:desigmarket/features/stocks/widgets/stocks_card.dart';
 import 'package:flutter/material.dart';
@@ -20,13 +24,6 @@ class StocksView extends StatelessWidget {
           title: const Text('DesignMarket'),
           backgroundColor: Colors.white,
           scrolledUnderElevation: 0,
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.notifications),
-            ),
-            const SizedBox(width: 12),
-          ],
         ),
         body: BlocBuilder<StocksCubit, StocksState>(
           builder: (context, state) {
@@ -55,54 +52,92 @@ class StocksView extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     children: [
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        margin: const EdgeInsets.only(right: 8),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: const Color(0xFFEEF2F6),
-                        ),
-                        width: 160,
-                        child: const Center(
-                          child: Icon(Icons.add),
+                      AddToWishlist(
+                        onTap: () {
+                          onAddCompany(context);
+                        },
+                      ),
+                      ...state.watchlistCompanies.map(
+                        (company) => StocksCard(
+                          company: company,
+                          // onTap: (company) {
+                          //   onCompanyPressed(context, company);
+                          // },
                         ),
                       ),
-                      if (state.companies.isNotEmpty)
-                        StocksCard(
-                          company: state.companies.last,
-                        ),
-                      if (state.companies.isNotEmpty)
-                        StocksCard(
-                          company: state.companies[0],
-                        ),
                     ],
                   ),
                 ),
                 Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(height: 8),
-                        const Text(
-                          'Trending',
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 8),
-                        ...state.companies.map(
-                          (company) => StockTile(company: company),
-                        )
-                      ],
-                    )),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 8),
+                      const Text(
+                        'Trending',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 8),
+                      ...state.companies.map(
+                        (company) => StockTile(
+                            company: company,
+                            onTap: (company) {
+                              onCompanyPressed(context, company);
+                            }),
+                      )
+                    ],
+                  ),
+                ),
               ],
             );
           },
         ),
       ),
+    );
+  }
+
+  void onCompanyPressed(BuildContext context, Company company) {
+    showModalBottomSheet(
+      context: context,
+      elevation: 2,
+      isScrollControlled: true,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(16),
+          topRight: Radius.circular(16),
+        ),
+      ),
+      builder: (context) {
+        return StockDetail(
+          company: company,
+        );
+      },
+    );
+  }
+
+  void onAddCompany(BuildContext paramContext) {
+    showModalBottomSheet(
+      context: paramContext,
+      elevation: 2,
+      isScrollControlled: true,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(16),
+          topRight: Radius.circular(16),
+        ),
+      ),
+      builder: (context) {
+        return AddToWishlistForm(
+          cubitContext: paramContext,
+        );
+      },
     );
   }
 }

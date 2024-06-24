@@ -24,24 +24,28 @@ if (flutterVersionName == null) {
 }
 
 android {
-    namespace = "com.example.desigmarket"
+    namespace = "com.prunus.desigmarket"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
+        // coreLibraryDesugaringEnabled true
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.example.desigmarket"
+        applicationId = "com.prunus.desigmarket"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdk = flutter.minSdkVersion
+        minSdk = 21
         targetSdk = flutter.targetSdkVersion
         versionCode = flutterVersionCode.toInteger()
         versionName = flutterVersionName
+
+        manifestPlaceholders += [auth0Domain: "dasafodevauth.us.auth0.com", auth0Scheme: "desigmarket"]
+
     }
 
     buildTypes {

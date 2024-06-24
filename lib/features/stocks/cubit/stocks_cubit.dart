@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:desigmarket/features/stocks/models/alert_model.dart';
 import 'package:desigmarket/features/stocks/models/company_model.dart';
 import 'package:desigmarket/features/stocks/models/trade_message_model.dart';
 import 'package:desigmarket/features/stocks/repository/stocks_repository.dart';
@@ -80,18 +81,48 @@ class StocksCubit extends Cubit<StocksState> {
     }
   }
 
+  void addAlert({
+    required String symbol,
+    required double price,
+  }) {
+    final alert = Alert(
+      symbol: symbol,
+      price: price,
+    );
+    emit(state.copyWith(alerts: [...state.alerts, alert]));
+  }
+
+  void addCompanyToWatchlist(String symbol, double alertPrice) {
+    final company =
+        state.companies.firstWhere((company) => company.ticker == symbol);
+    addAlert(symbol: symbol, price: alertPrice);
+    emit(state
+        .copyWith(watchlistCompanies: [...state.watchlistCompanies, company]));
+  }
+
   void _handleWebSocketMessage(dynamic message) {
     final parsedMessage = _parseMessage(message);
     if (parsedMessage.type != 'trade') return;
+    List<Company> updatedCompanies = [];
+    List<Company> wishListUpdated = [];
     for (var trade in parsedMessage.data) {
-      final updatedCompanies = state.companies.map((company) {
+      updatedCompanies = state.companies.map((company) {
         if (company.ticker == trade.symbol) {
-          return company.copyWith(trades: [...company.trades, trade]);
+          final trades = [...company.trades, trade];
+          return company.copyWith(trades: trades);
         }
         return company;
       }).toList();
-      emit(state.copyWith(companies: updatedCompanies));
+      wishListUpdated = state.watchlistCompanies.map((company) {
+        if (company.ticker == trade.symbol) {
+          final trades = [...company.trades, trade];
+          return company.copyWith(trades: trades);
+        }
+        return company;
+      }).toList();
     }
+    emit(state.copyWith(companies: updatedCompanies));
+    emit(state.copyWith(watchlistCompanies: wishListUpdated));
   }
 
   TradeMessage _parseMessage(dynamic message) {
