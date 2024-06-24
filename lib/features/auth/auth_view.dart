@@ -19,7 +19,8 @@ class _AuthViewState extends State<AuthView> {
   @override
   void initState() {
     super.initState();
-    auth0 = Auth0('dasafodevauth.us.auth0.com', 'client_id');
+    auth0 =
+        Auth0('dasafodevauth.us.auth0.com', 'nCf9OxsNM1ns7WW0bO93sSqGvtcit39e');
   }
 
   void _login() async {

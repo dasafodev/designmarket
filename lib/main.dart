@@ -13,7 +13,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RepositoryProvider(
-      create: (context) => StocksRepository(token: "finnhub_token"),
+      create: (context) =>
+          StocksRepository(token: "cpr09opr01qifjjvanu0cpr09opr01qifjjvanug"),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'DesignMarket',
