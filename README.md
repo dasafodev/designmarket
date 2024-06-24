@@ -1,16 +1,18 @@
-# desigmarket
+# DesigMarket
 
-A new Flutter project.
+[![Flutter](https://img.shields.io/badge/Flutter-3.22-02569B?logo=flutter)](https://flutter.dev/)
+[![Dart](https://img.shields.io/badge/Dart-3.4-0175C2?logo=dart)](https://dart.dev/)
+[![Auth0](https://img.shields.io/badge/Auth0-Authentication-orange?logo=auth0)](https://auth0.com/)
 
-## Getting Started
+DesigMarket is a mobile application for tracking and managing stocks. It provides an intuitive and modern interface for users to add stocks to their watchlist, view current trends, and receive notifications when prices exceed a defined threshold.
+![pic1](https://github.com/dasafodev/designmarket/assets/47871820/1f392142-c13c-4a43-8d64-2568d59f8513)
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Features
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- **Authentication**: Log in with Auth0 or continue as a guest.
+- **Watchlist**: Add stocks to your watchlist.
+- **Trends**: View the most popular stocks of the moment.
+- **Animated Interface**: Smooth user experience with attractive animations.
+
